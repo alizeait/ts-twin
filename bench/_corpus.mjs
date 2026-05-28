@@ -22,14 +22,22 @@ export function generateCorpus(count, mode = 'templated') {
 function pickTemplate(seed) {
   const template = seed % 8;
   switch (template) {
-    case 0: return fetchHandlerTemplate(seed);
-    case 1: return reducerTemplate(seed);
-    case 2: return validatorTemplate(seed);
-    case 3: return formatterTemplate(seed);
-    case 4: return middlewareTemplate(seed);
-    case 5: return classMethodTemplate(seed);
-    case 6: return treeWalkerTemplate(seed);
-    default: return arrayPipelineTemplate(seed);
+    case 0:
+      return fetchHandlerTemplate(seed);
+    case 1:
+      return reducerTemplate(seed);
+    case 2:
+      return validatorTemplate(seed);
+    case 3:
+      return formatterTemplate(seed);
+    case 4:
+      return middlewareTemplate(seed);
+    case 5:
+      return classMethodTemplate(seed);
+    case 6:
+      return treeWalkerTemplate(seed);
+    default:
+      return arrayPipelineTemplate(seed);
   }
 }
 
@@ -48,7 +56,16 @@ function uniqueTemplate(seed) {
   const k1 = 2 + (seed % 17);
   const k2 = 3 + ((seed >> 2) % 23);
   const k3 = 5 + ((seed >> 4) % 31);
-  const fields = ['alpha', 'bravo', 'charlie', 'delta', 'echo', 'foxtrot', 'golf', 'hotel'];
+  const fields = [
+    'alpha',
+    'bravo',
+    'charlie',
+    'delta',
+    'echo',
+    'foxtrot',
+    'golf',
+    'hotel',
+  ];
   const f1 = fields[seed % fields.length];
   const f2 = fields[(seed + 1) % fields.length];
   const f3 = fields[(seed + 2) % fields.length];

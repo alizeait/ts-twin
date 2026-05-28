@@ -48,10 +48,7 @@ function probe(
   const relaxed = findDuplicateFunctionsInSources(sources, { minScore: 0 });
   const rawScore = relaxed.groups.length > 0 ? relaxed.groups[0].score : null;
 
-  const tokenSource =
-    group?.functions ??
-    relaxed.groups[0]?.functions ??
-    [];
+  const tokenSource = group?.functions ?? relaxed.groups[0]?.functions ?? [];
 
   const outcome: Outcome = {
     id,
@@ -71,10 +68,14 @@ function probe(
 
 describe('false positive probe', () => {
   test('N1 magic-number scale', () => {
-    const outcome = probe('N1', 'magic-number scale (x*1000 vs x*60)', 'no-group', [
-      {
-        file: 'a/millis.ts',
-        source: `
+    const outcome = probe(
+      'N1',
+      'magic-number scale (x*1000 vs x*60)',
+      'no-group',
+      [
+        {
+          file: 'a/millis.ts',
+          source: `
           export function multiplyByMillis(value: number) {
             if (typeof value !== 'number') return 0;
             if (!Number.isFinite(value)) return 0;
@@ -83,10 +84,10 @@ describe('false positive probe', () => {
             return scaled;
           }
         `,
-      },
-      {
-        file: 'b/seconds.ts',
-        source: `
+        },
+        {
+          file: 'b/seconds.ts',
+          source: `
           export function multiplyBySeconds(value: number) {
             if (typeof value !== 'number') return 0;
             if (!Number.isFinite(value)) return 0;
@@ -95,8 +96,9 @@ describe('false positive probe', () => {
             return scaled;
           }
         `,
-      },
-    ]);
+        },
+      ],
+    );
     expect(outcome).toBeDefined();
   });
 
@@ -478,14 +480,10 @@ describe('false positive probe', () => {
   });
 
   test('O2 sort asc/desc (operand order flip)', () => {
-    const outcome = probe(
-      'O2',
-      'sort asc vs desc (operand flip)',
-      'no-group',
-      [
-        {
-          file: 'a/sortAscByCreated.ts',
-          source: `
+    const outcome = probe('O2', 'sort asc vs desc (operand flip)', 'no-group', [
+      {
+        file: 'a/sortAscByCreated.ts',
+        source: `
             export function sortAscByCreated(records) {
               const copy = [...records];
               copy.sort((left, right) => {
@@ -496,10 +494,10 @@ describe('false positive probe', () => {
               return copy;
             }
           `,
-        },
-        {
-          file: 'b/sortDescByCreated.ts',
-          source: `
+      },
+      {
+        file: 'b/sortDescByCreated.ts',
+        source: `
             export function sortDescByCreated(records) {
               const copy = [...records];
               copy.sort((left, right) => {
@@ -510,9 +508,8 @@ describe('false positive probe', () => {
               return copy;
             }
           `,
-        },
-      ],
-    );
+      },
+    ]);
     expect(outcome).toBeDefined();
   });
 
@@ -687,7 +684,7 @@ describe('false positive probe', () => {
   test('L1 callback-param rename (inner arrow params not normalized)', () => {
     const outcome = probe(
       'L1',
-      "callback-param rename (item vs entry inside .filter/.map)",
+      'callback-param rename (item vs entry inside .filter/.map)',
       'group',
       [
         {
@@ -866,7 +863,9 @@ describe('false positive probe', () => {
 
   afterAll(() => {
     console.log('');
-    console.log('### ts-twin false positive probe (defaults: minScore=0.82, minNodes=12, minTokens=30)');
+    console.log(
+      '### ts-twin false positive probe (defaults: minScore=0.82, minNodes=12, minTokens=30)',
+    );
     console.log('');
     console.log(
       '| id  | expected  | grouped | score | raw   | tokens (L/R) | nodes (L/R) | verdict             | label |',
@@ -878,8 +877,14 @@ describe('false positive probe', () => {
     for (const outcome of outcomes) {
       const expectedGroup = outcome.expected === 'group';
       const verdict = computeVerdict(outcome.grouped, expectedGroup);
-      const tokens = outcome.tokens.length === 2 ? `${outcome.tokens[0]} / ${outcome.tokens[1]}` : '-';
-      const nodes = outcome.nodes.length === 2 ? `${outcome.nodes[0]} / ${outcome.nodes[1]}` : '-';
+      const tokens =
+        outcome.tokens.length === 2
+          ? `${outcome.tokens[0]} / ${outcome.tokens[1]}`
+          : '-';
+      const nodes =
+        outcome.nodes.length === 2
+          ? `${outcome.nodes[0]} / ${outcome.nodes[1]}`
+          : '-';
       const score = outcome.score === null ? '-' : outcome.score.toFixed(3);
       const raw = outcome.rawScore === null ? '-' : outcome.rawScore.toFixed(3);
 
@@ -902,7 +907,10 @@ describe('false positive probe', () => {
       console.log(
         '  ' +
           unexpectedFalsePositives
-            .map((outcome) => `${outcome.id} (score=${outcome.score?.toFixed(3) ?? '-'})`)
+            .map(
+              (outcome) =>
+                `${outcome.id} (score=${outcome.score?.toFixed(3) ?? '-'})`,
+            )
             .join(', '),
       );
     }
@@ -910,7 +918,9 @@ describe('false positive probe', () => {
       `Unexpected misses (failed to group a true duplicate): ${unexpectedMisses.length} / ${outcomes.length}`,
     );
     if (unexpectedMisses.length > 0) {
-      console.log('  ' + unexpectedMisses.map((outcome) => outcome.id).join(', '));
+      console.log(
+        '  ' + unexpectedMisses.map((outcome) => outcome.id).join(', '),
+      );
     }
     console.log('');
   });
@@ -924,5 +934,7 @@ function computeVerdict(grouped: boolean, expectedGroup: boolean): string {
 }
 
 function pad(value: string, width: number): string {
-  return value.length >= width ? value : value + ' '.repeat(width - value.length);
+  return value.length >= width
+    ? value
+    : value + ' '.repeat(width - value.length);
 }

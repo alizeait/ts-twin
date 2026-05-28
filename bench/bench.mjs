@@ -18,7 +18,8 @@ import { findDuplicateFunctionsInSources } from '../dist/index.js';
 import { generateCorpus } from './_corpus.mjs';
 
 const requested = Number(process.argv[2] ?? 2000);
-const functionCount = Number.isFinite(requested) && requested > 0 ? Math.floor(requested) : 2000;
+const functionCount =
+  Number.isFinite(requested) && requested > 0 ? Math.floor(requested) : 2000;
 const mode = process.argv[3] === 'realistic' ? 'realistic' : 'templated';
 
 const sources = generateCorpus(functionCount, mode);
@@ -60,5 +61,6 @@ console.log(`  median:                  ${median.toFixed(1)} ms`);
 console.log(`  worst:                   ${worst.toFixed(1)} ms`);
 console.log(`  parseSync (isolated):    ${parseElapsed.toFixed(1)} ms`);
 console.log(`  algorithm (median-parse):${algorithmOnly.toFixed(1)} ms`);
-console.log(`  candidates/sec:          ${(lastReport.functions / (median / 1000)).toFixed(0)}`);
-
+console.log(
+  `  candidates/sec:          ${(lastReport.functions / (median / 1000)).toFixed(0)}`,
+);
