@@ -1,7 +1,7 @@
 {
   "name": "ts-twin",
   "description": "Find structurally similar JS/TS functions, even after renaming/refactoring",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "alizeait",
   "license": "MIT",
   "type": "module",
