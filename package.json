@@ -1,50 +1,56 @@
 {
   "name": "ts-twin",
-  "version": "0.1.0",
+  "description": "Find structurally similar JS/TS functions, even after renaming/refactoring",
+  "version": "0.0.0",
+  "author": "alizeait",
+  "license": "MIT",
   "type": "module",
-  "private": true,
-  "license": "UNLICENSED",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "scan": "node dist/cli.js",
+    "bench": "node bench/bench.mjs",
+    "bench:realistic": "node bench/bench.mjs 5000 realistic",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check-types": "tsc --noEmit",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
   "bin": {
     "ts-twin": "./dist/cli.js"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "types": "./dist/index.d.ts",
-    "exports": {
-      ".": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "./package.json": "./package.json"
-    }
   },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsup",
-    "lint": "eslint .",
-    "scan": "tsx src/cli.ts",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
-  },
+  "keywords": [],
   "dependencies": {
+    "@shikijs/cli": "^4.1.0",
     "oxc-parser": "^0.128.0",
     "sade": "^1.8.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^24.1.0",
+    "oxlint": "^1.67.0",
+    "prettier": "^3.8.3",
     "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5",
-    "vitest": "^4.1.5"
-  }
+    "typescript": "^5.8",
+    "vitest": "^4.1.7"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8"
 }
