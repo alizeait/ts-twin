@@ -22,19 +22,11 @@ Not every match should become an abstraction. In those
 cases, extract only the shared logic when it improves readability, or suppress
 the function with `// ts-twin-ignore: <reason>`.
 
-## ts-twin vs jscpd
+## Comparison
 
-[`jscpd`](https://github.com/kucherenko/jscpd) is a general-purpose copy-paste
-detector. It supports many languages and reports duplicated line ranges,
-including repeated blocks inside a function.
-
-`ts-twin` is narrower by design. It only targets JavaScript and TypeScript, but
-it compares function structure instead of text. That makes it better suited for
-finding near-duplicate functions with renamed variables, changed literals, or
-small structural differences.
-
-Use `ts-twin` when you want function-level refactoring candidates in a JS/TS
-codebase.
+Unlike text-based clone detectors such as
+[`jscpd`](https://github.com/kucherenko/jscpd), `ts-twin` focuses specifically
+on structurally similar JavaScript and TypeScript functions.
 
 ## Features
 
